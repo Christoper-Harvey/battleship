@@ -1,0 +1,6 @@
+# Game-Wide configurable values
+FPS = 30
+SCREEN_WIDTH = 400
+SCREEN_HEIGHT = 800
+GRID_SIZE = 10
+COL_SIZE = SCREEN_WIDTH / GRID_SIZE

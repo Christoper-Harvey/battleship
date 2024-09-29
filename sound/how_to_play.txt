@@ -1,0 +1,14 @@
+How to call and play these bad boys:
+
+# Initialize the mixer thing
+pygame.mixer.init()
+
+# Load sound effects
+pygame.mixer.music.load('sound/background.mp3')
+hit_sound = pygame.mixer.Sound('sound/hit.mp3')
+ add others
+
+# Play sound effects
+hit_sound.play()  # Plays the "hit" sound
+pygame.mixer.music.play(-1)  # '-1' makes the music loop indefinitely
+  add others
