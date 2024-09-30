@@ -63,9 +63,12 @@ class Game:
         elif selection == 3:
             self.shot_selection = "run_v"
             print("BOMBING RUN (vertical)")
-        # elif selection == 4:
-        #     self.shot_selection = "single"
-        #     print("SINGLE SHOT")
+        elif selection == 4:
+            self.shot_selection = "volley"
+            print("VOLLY")
+        elif selection == 5:
+            self.shot_selection = "radar"
+            print("RADAR")
 
     def set_powerup_activity(self):
         self.powerup_activity = True

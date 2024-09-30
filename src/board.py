@@ -16,7 +16,7 @@ class Board:
 
         self.ship_size = ship_size
         self.ships = []
-        self.powerups = [False, False, False]
+        self.powerups = [False, False, False, False, False]
 
     def get_powerups(self):
         """
@@ -63,7 +63,7 @@ class Board:
         """
         Assign a powerup to the player with a 50% chance
         """
-        if random.random() < 0.1:  # 10% chance
+        if random.random() < 0.9:  # 10% chance
             powerup_chance = random.random()
             if powerup_chance < 0.2:  # 20% chance for powerup 1
                 print("Got nuke")
@@ -71,16 +71,28 @@ class Board:
                     self.powerups[0] = True
                 else:
                     print("Duplicate powerup wasted")
-            elif powerup_chance < 0.6:  # 40% chance for powerup 2
+            elif powerup_chance < 0.2:  # 40% chance for powerup 2
                 print("Got Bombing Run (horizontal)")
                 if self.powerups[1] == False:
                     self.powerups[1] = True
                 else:
                     print("Duplicate powerup wasted")
-            else:  # 40% chance for powerup 3
+            elif powerup_chance < 0.2:  # 40% chance for powerup 3
                 print("Got Bombing Run (vertical)")
                 if self.powerups[2] == False:
                     self.powerups[2] = True
+                else:
+                    print("Duplicate powerup wasted")
+            elif powerup_chance < 0.9:  # 40% chance for powerup 4
+                print("Got Volley")
+                if self.powerups[3] == False:
+                    self.powerups[3] = True
+                else:
+                    print("Duplicate powerup wasted")
+            else:  # 40% chance for powerup 5
+                print("Got Radar")
+                if self.powerups[4] == False:
+                    self.powerups[4] = True
                 else:
                     print("Duplicate powerup wasted")
 
