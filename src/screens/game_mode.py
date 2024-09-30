@@ -13,8 +13,8 @@ class GameModeScreen(Screen):
 
         # Create buttons for Player vs Player and Player vs AI
         self.buttons = [
-            Button("Player vs Player", (SCREEN_WIDTH // 2) - 100, 225, self.font_sm, button_text_color, button_bg_color, button_hover_color, True),
-            Button("Player vs AI", (SCREEN_WIDTH // 2) - 100, 300, self.font_sm, button_text_color, button_bg_color, button_hover_color, True)
+            Button("Player vs Player", (SCREEN_WIDTH // 2) - 100, 200, self.font_sm, button_text_color, button_bg_color, button_hover_color, True),
+            Button("    Player vs AI     ", (SCREEN_WIDTH // 2) + 75, 200, self.font_sm, button_text_color, button_bg_color, button_hover_color, True)
         ]
 
         self.start_game_button = Button('START', SCREEN_WIDTH // 2, 400, self.font_md, button_text_color, button_bg_color, button_hover_color, True, False)
@@ -24,7 +24,7 @@ class GameModeScreen(Screen):
         surface.fill(Color.BACKGROUND)
 
         # Title text
-        self.write('BATTLESHIP - Select Mode', self.font_lg, Color.WHITE, surface, SCREEN_WIDTH // 2, 75, True)
+        self.write('GAMEMODE', self.font_lg, Color.WHITE, surface, SCREEN_WIDTH // 2, 75, True)
 
         # Draw buttons for Player vs Player and Player vs AI
         mouse_pos = pygame.mouse.get_pos()
@@ -47,7 +47,7 @@ class GameModeScreen(Screen):
                         # Set the selected mode based on button clicked
                         if button.text == "Player vs Player":
                             self.selected_mode = "PvP"
-                        elif button.text == "Player vs AI":
+                        elif button.text == "    Player vs AI     ":
                             self.selected_mode = "PvAI"
 
                         # Uncheck other buttons

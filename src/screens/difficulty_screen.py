@@ -13,16 +13,16 @@ class DifficultyScreen(Screen):
         button_hover_color = Color.BUTTON_HOVER
 
         self.buttons = [
-            Button("Easy", game.surface.get_width() // 2, 225, self.font_md, button_text_color, button_bg_color, button_hover_color, True),
-            Button("Medium", game.surface.get_width() // 2, 325, self.font_md, button_text_color, button_bg_color, button_hover_color, True),
-            Button("Hard", game.surface.get_width() // 2, 425, self.font_md, button_text_color, button_bg_color, button_hover_color, True),
+            Button("    Easy    ", game.surface.get_width() // 2, 200, self.font_md, button_text_color, button_bg_color, button_hover_color, True),
+            Button("Medium", game.surface.get_width() // 2, 400, self.font_md, button_text_color, button_bg_color, button_hover_color, True),
+            Button("    Hard    ", game.surface.get_width() // 2, 600, self.font_md, button_text_color, button_bg_color, button_hover_color, True),
         ]
 
     def render(self, surface):
         surface.fill(Color.BACKGROUND)
 
         # Title text
-        self.write('SELECT AI DIFFICULTY', self.font_lg, Color.WHITE, surface, surface.get_width() // 2, 75, True)
+        self.write('DIFFICULTY', self.font_lg, Color.WHITE, surface, surface.get_width() // 2, 75, True)
 
         mouse_pos = pygame.mouse.get_pos()
         for button in self.buttons:
