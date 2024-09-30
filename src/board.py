@@ -86,13 +86,6 @@ class Board:
                     Audio.play_pickup()
                 else:
                     print("Duplicate powerup wasted")
-            elif powerup_chance < 0.2:  # 40% chance for powerup 4
-                print("Got Volley")
-                if self.powerups[3] == False:
-                    self.powerups[3] = True
-                    Audio.play_pickup()
-                else:
-                    print("Duplicate powerup wasted")
             elif powerup_chance < 0.2:  # 40% chance for powerup 5
                 print("Got Radar")
                 if self.powerups[4] == False:
@@ -100,6 +93,14 @@ class Board:
                     Audio.play_pickup()
                 else:
                     print("Duplicate powerup wasted")
+            else:  # 40% chance for powerup 4
+                print("Got Volley")
+                if self.powerups[3] == False:
+                    self.powerups[3] = True
+                    Audio.play_pickup()
+                else:
+                    print("Duplicate powerup wasted")
+
 
     def spawnShip(self):
         """
