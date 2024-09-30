@@ -3,7 +3,6 @@ import pygame
 from ._screen import Screen
 from ..types  import Color, State, Player
 from ..config import SCREEN_WIDTH, SCREEN_HEIGHT, GRID_SIZE
-from ..cpu import CPU
 
 
 class SelectionScreen(Screen):
@@ -19,15 +18,10 @@ class SelectionScreen(Screen):
         if self.game.current_player == Player.ONE:
             self.game.player_1_board.spawnShip()
             self.game.current_player = Player.TWO
-
-            # Skip manual placement if the second player is AI
-            if isinstance(self.game.cpu, CPU):
-                self.game.set_state(State.BEGIN_GAME)  # Skip to game start
-            else:
-                # If Player 2 is a human, allow ship placement for Player 2
-                self.game.player_2_board.spawnShip()
-                self.game.current_player = Player.ONE
-                self.game.set_state(State.BEGIN_GAME)
+        elif self.game.current_player == Player.TWO:
+            self.game.player_2_board.spawnShip()
+            self.game.current_player = Player.ONE
+            self.game.set_state(State.BEGIN_GAME)
 
     def place_ship_instructions(self, surface: pygame.Surface, player: Player):
         if player == Player.ONE:

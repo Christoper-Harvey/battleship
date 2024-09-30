@@ -70,5 +70,5 @@ class MenuScreen(Screen):
 
                 if self.start_game_button.is_clicked(mouse_pos):
                     if self.selected_ships is not None:
-                        self.game.set_state(State.GAME_MODE)
+                        self.game.set_state(State.SELECTION)
 
