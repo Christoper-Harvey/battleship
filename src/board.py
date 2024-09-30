@@ -63,7 +63,7 @@ class Board:
         """
         Assign a powerup to the player with a 50% chance
         """
-        if random.random() < 0.9:  # 10% chance
+        if random.random() < 0.2:  # 10% chance
             powerup_chance = random.random()
             if powerup_chance < 0.2:  # 20% chance for powerup 1
                 print("Got nuke")
@@ -83,7 +83,7 @@ class Board:
                     self.powerups[2] = True
                 else:
                     print("Duplicate powerup wasted")
-            elif powerup_chance < 0.9:  # 40% chance for powerup 4
+            elif powerup_chance < 0.2:  # 40% chance for powerup 4
                 print("Got Volley")
                 if self.powerups[3] == False:
                     self.powerups[3] = True
@@ -207,3 +207,15 @@ class Board:
             if not cell.is_hit:
                 return False
         return True
+    
+    def highlight_cells(self, positions):
+        """Highlights cells based on the given positions (for volley and radar)."""
+        for (x, y) in positions:
+            if 0 <= x < len(self.cells) and 0 <= y < len(self.cells[0]):
+                self.cells[y][x].highlight(True)
+
+    def reset_highlights(self):
+        """Reset highlights for all cells."""
+        for row in self.cells:
+            for cell in row:
+                cell.highlight(False)

@@ -67,23 +67,41 @@ class PlayingScreen(Screen):
         self.draw_inventory(surface)
 
 
+    def get_grid_position(self, mouse_pos):
+        """Converts mouse position to grid coordinates."""
+        grid_x = int(mouse_pos[0] // COL_SIZE)  # Convert to int to avoid float issues
+        grid_y = int(mouse_pos[1] // COL_SIZE)  # Convert to int to avoid float issues
+        return (grid_x, grid_y)
+
 
     def handle_events(self, events):
         for event in events:
             if event.type == pygame.MOUSEBUTTONUP and self.game.player_can_shoot:
 
                 mouse_pos = pygame.mouse.get_pos()
+                grid_pos = self.get_grid_position(mouse_pos)  # Convert to grid position
                 # Check if we're using the Volley Shot
                 if self.game.shot_selection == "volley":
                     # Append mouse positions
                     self.volley_positions.append(mouse_pos)
                     self.volley_shot_clicks += 1
+                    if self.game.current_player == Player.ONE:
+                        self.game.player_2_board.highlight_cells([grid_pos])
+                        self.render(self.game.surface)
+                    elif self.game.current_player == Player.TWO:
+                        self.game.player_1_board.highlight_cells([grid_pos])
+                        self.render(self.game.surface)
 
                     print(f"Volley Shot: {self.volley_shot_clicks} clicks registered")
 
                     # Check if 4 clicks have been made
                     if self.volley_shot_clicks == 4:
                         print("Volley Shot: 4 shots selected, processing...")
+                        # Reset highlights after processing
+                        if self.game.current_player == Player.ONE:
+                            self.game.player_2_board.reset_highlights()
+                        elif self.game.current_player == Player.TWO:
+                            self.game.player_1_board.reset_highlights()
                         # Process all 4 shots
                         for position in self.volley_positions:
                             if self.game.current_player == Player.ONE:
@@ -126,8 +144,10 @@ class PlayingScreen(Screen):
                     elif self.game.shot_selection == "radar":   #adds mouse positions for all vertical bombing run tiles
                         if self.game.current_player == Player.ONE:
                             print(self.game.player_2_board.ships[0].coordinates)
+                            self.game.player_2_board.highlight_cells(self.game.player_2_board.ships[0].coordinates)
                         elif self.game.current_player == Player.TWO:
                             print(self.game.player_1_board.ships[0].coordinates)
+                            self.game.player_2_board.highlight_cells(self.game.player_2_board.ships[0].coordinates)
 
 
                     for position in mouse_pos:

@@ -15,6 +15,7 @@ class Cell:
         self.is_hit: bool = False
         self.is_active: bool = False
         self.has_ship: bool = False
+        self.is_highlighted: bool = False  # New flag for highlighting
         self.visible = True
 
         #x & y are the coordinates of the cell while the width and height describes the shape of the cell while the offset tells pygame where to put the boards relative to each other on the y axis
@@ -27,24 +28,33 @@ class Cell:
 
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
-    def draw_hit(self, surface: Surface):
-        # Position the hit marker in the center of the Cell
-        center = (self.x + self.width/2, self.y + self.height/2)
-        pygame.draw.circle(surface, Color.WHITE, center, 3)
+    # def draw_hit(self, surface: Surface):
+    #     # Position the hit marker in the center of the Cell
+    #     center = (self.x + self.width/2, self.y + self.height/2)
+    #     pygame.draw.circle(surface, Color.WHITE, center, 3)
 
 
     def draw_normal(self, surface: Surface):
         if self.is_hit:
-            if self.has_ship: color = Color.RED
-            else: color = Color.BACKGROUND
+            if self.has_ship:
+                color = Color.RED
+                pygame.draw.rect(surface, color, (self.x, self.y, self.width, self.height))
+                center = (self.x + self.width/2, self.y + self.height/2)
+                pygame.draw.circle(surface, Color.RED, center, 3)
+            else:
+                color = Color.BACKGROUND
+                pygame.draw.rect(surface, color, (self.x, self.y, self.width, self.height))
+                center = (self.x + self.width/2, self.y + self.height/2)
+                pygame.draw.circle(surface, Color.WHITE, center, 3)
         elif self.has_ship:
             color = Color.GREEN
+            pygame.draw.rect(surface, color, (self.x, self.y, self.width, self.height))
         elif self.is_active:
             color = Color.GREEN
+            pygame.draw.rect(surface, color, (self.x, self.y, self.width, self.height))
         else:
             color = Color.CELL_NEUTRAL
-
-        pygame.draw.rect(surface, color, (self.x, self.y, self.width, self.height))
+            pygame.draw.rect(surface, color, (self.x, self.y, self.width, self.height))
 
     def draw_invisible(self, surface: Surface):
         pygame.draw.rect(surface, Color.CELL_NEUTRAL, (self.x, self.y, self.width, self.height))
@@ -54,9 +64,11 @@ class Cell:
         if not visible and not self.is_hit:
             return self.draw_invisible(surface)
 
-        if self.is_hit:
-            self.draw_hit(surface)
-        self.draw_normal(surface)
+        if self.is_highlighted:  # Render the highlighted state differently
+            color = Color.YELLOW  # Highlighted cells will be yellow
+            pygame.draw.rect(surface, color, (self.x, self.y, self.width, self.height))
+        else:
+            self.draw_normal(surface)
 
     def hit(self, coordinate: Coordinate, board) -> bool:
         """
@@ -78,3 +90,7 @@ class Cell:
                 Audio.play_miss()
             return True
         return False
+    
+    def highlight(self, highlight: bool):
+        """Sets whether the cell is highlighted."""
+        self.is_highlighted = highlight

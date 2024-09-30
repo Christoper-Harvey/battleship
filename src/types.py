@@ -17,6 +17,7 @@ class Color:
     GREY = pygame.Color(128, 128, 128)
     RED = pygame.Color(219, 48, 105)
     BLUE = pygame.Color(0, 0, 255)
+    YELLOW = pygame.Color(255, 255, 0)
     DARK_BLUE = pygame.Color(0, 0, 139)
     BUTTON_BG = pygame.Color(0, 128, 255)  # A dark blue
     BUTTON_HOVER = pygame.Color(0, 200, 255)  # a lighter blue than BUTTON_BG
