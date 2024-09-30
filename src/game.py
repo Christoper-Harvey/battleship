@@ -26,7 +26,6 @@ class Game:
         self.surface = surface
         self.player_1_board = None
         self.player_2_board = None
-        self.cpu = None  # Add CPU instance for AI
 
         self.winner = None
         self.game_over = False
