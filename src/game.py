@@ -8,8 +8,14 @@ from .board import Board
 from .types import State, Player
 
 from .screens import MenuScreen, PlayingScreen, FinishScreen, SelectionScreen, TurnTransition, BeginGameScreen
+from .screens.game_mode import GameModeScreen
+from .screens.difficulty_screen import DifficultyScreen
+
+from .cpu import CPU
 
 HALF_HEIGHT = SCREEN_HEIGHT / 2
+
+TURN_TRANSITION_EVENT = pygame.USEREVENT + 1
 
 class Game:
     def __init__(self, clock, surface: pygame.Surface, grid_size: int) -> None:
@@ -26,6 +32,8 @@ class Game:
         self.surface = surface
         self.player_1_board = None
         self.player_2_board = None
+        self.cpu = None  # Add CPU instance for AI
+        self.ai_difficulty = None  # AI difficulty attribute
 
         self.winner = None
         self.game_over = False
@@ -35,6 +43,8 @@ class Game:
         self.state: State = State.START
         self.screens = {
             State.START: MenuScreen(self),
+            State.GAME_MODE: GameModeScreen(self),  # Add GameMode screen
+            State.AI_DIFFICULTY: DifficultyScreen(self),  # Add the AI difficulty screen
             State.SELECTION: SelectionScreen(self),
             State.TURN_TRANSITION: TurnTransition(self),
             State.PLAYING: PlayingScreen(self),
@@ -77,6 +87,14 @@ class Game:
         self.shot_selection = "single"
         self.powerup_activity = False
 
+    def start_ai_game(self):
+        """Start a game with a CPU opponent."""
+        self.cpu = CPU(self.num_ships)  # Initialize CPU
+        self.player_1_board = Board(y_offset=SCREEN_HEIGHT / 2, board_size=GRID_SIZE, ship_size=self.num_ships)
+        self.player_2_board = self.cpu.board  # Set player 2 board to the CPU's board
+
+        self.set_state(State.SELECTION)  # Proceed to ship selection
+
     def run(self):
         while self._running:
             if self.game_over:
@@ -106,6 +124,28 @@ class Game:
 
             if self.player_1_board != None and self.player_2_board != None:
                 self.check_end_game()
+
+            # If it's the AI's turn, perform the AI's attack and end its turn
+            if self.current_player == Player.TWO and isinstance(self.cpu, CPU):
+                self.ai_turn()
+
+    def ai_turn(self):
+        """Handles the AI's turn and switches back to Player 1."""
+        if self.cpu:
+            # Call the AI's attack method (easy_attack, medium_attack, or hard_attack)
+            if self.ai_difficulty == "easy":
+                self.cpu.easy_attack(self.player_1_board)  # AI attacks Player 1's board
+            elif self.ai_difficulty == "medium":
+                self.cpu.medium_attack(self.player_1_board)
+            elif self.ai_difficulty == "hard":
+                self.cpu.hard_attack(self.player_1_board)
+
+            # After AI attack, switch back to Player 1's turn
+            self.current_player = Player.ONE
+            
+            # Set a one-time event to transition after AI's turn
+            pygame.time.set_timer(TURN_TRANSITION_EVENT, 1000, loops=1)  # Transition after 1 second
+
 
 
     def handle_global_events(self, events: List[pygame.event.Event]):

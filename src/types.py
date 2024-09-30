@@ -32,6 +32,8 @@ class State(Enum):
     PLAYING = 4
     END = 5
     BEGIN_GAME = 6
+    GAME_MODE = 7
+    AI_DIFFICULTY = 8
 
 
 class Player(Enum):
