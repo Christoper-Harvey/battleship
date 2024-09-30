@@ -18,6 +18,7 @@ class Game:
         self.num_ships = 1
 
         self.current_player = Player.ONE
+        self.player_can_shoot = True
 
         self.shot_selection = "single" #tracks player's powerup shot selection - can be "single", "carpet", "run_h", "run_v"
         self.powerup_activity = False #tracks if a powerup is selected so it can only happen once per turn
@@ -62,9 +63,9 @@ class Game:
         elif selection == 3:
             self.shot_selection = "run_v"
             print("BOMBING RUN (vertical)")
-        elif selection == 4:
-            self.shot_selection = "single"
-            print("SINGLE SHOT")
+        # elif selection == 4:
+        #     self.shot_selection = "single"
+        #     print("SINGLE SHOT")
 
     def set_powerup_activity(self):
         self.powerup_activity = True

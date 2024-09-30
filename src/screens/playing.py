@@ -11,40 +11,16 @@ class PlayingScreen(Screen):
     def __init__(self, game: "Game") -> None:
         super().__init__(game)
         self.TURN_TRANSITION_DELAY = 1000  # 1 second delay
-        self.error_message = None  # To store the error message
-        self.error_timer = 0       # Timer to clear the error message
-        self.ERROR_DISPLAY_DURATION = 1000
-
-    def draw_error_message(self, surface):
-
-        if self.error_message:
-            
-            # determine error message location per player
-            if self.game.current_player == Player.ONE:
-                error_x = SCREEN_WIDTH // 2
-                error_y = SCREEN_HEIGHT // 4
-            else:
-                error_x = SCREEN_WIDTH // 2
-                error_y = (SCREEN_HEIGHT // 4) * 3
-            
-            # render the error message
-            font = pygame.font.SysFont('impact', 32)
-            error_surface = font.render(self.error_message, True, Color.RED)
-            error_width = error_surface.get_width()
-            error_x = (SCREEN_WIDTH - error_width) // 2
-            surface.blit(error_surface, (error_x, error_y))
-            if pygame.time.get_ticks() - self.error_timer > self.ERROR_DISPLAY_DURATION:
-                self.error_message = None
 
     def draw_inventory(self, surface):
         
         # determine inventory location per player
         if self.game.current_player == Player.ONE:
-            inventory_x = 0
-            inventory_y = SCREEN_HEIGHT // 2
-        else:
-            inventory_x = 0
-            inventory_y = SCREEN_HEIGHT // 2 - 80
+            inventory_x = 0  # Starting x position for Player One's inventory
+            inventory_y = SCREEN_HEIGHT // 2  # Position slightly below the bottom of Player One's board
+        else:  # Player Two
+            inventory_x = 0  # Starting x position for Player Two's inventory
+            inventory_y = SCREEN_HEIGHT // 2 - 80  # Position below Player Two's board
 
         # make background
         inventory_surface = pygame.Surface((SCREEN_WIDTH, 80), pygame.SRCALPHA)
@@ -64,6 +40,7 @@ class PlayingScreen(Screen):
                 text = font.render(f"{key}: {powerup}", True, Color.WHITE)
             else:
                 text = font.render(f"{key}: {powerup}", True, Color.GREY)
+
             surface.blit(text, (inventory_x + 20, inventory_y + 20 * index))
 
     def render(self, surface):
@@ -85,14 +62,13 @@ class PlayingScreen(Screen):
             # Apply overlay to top half (Player 1's board)
             surface.blit(self.overlay, (0, 0))
 
-        self.draw_error_message(surface)
         self.draw_inventory(surface)
 
 
 
     def handle_events(self, events):
         for event in events:
-            if event.type == pygame.MOUSEBUTTONUP:
+            if event.type == pygame.MOUSEBUTTONUP and self.game.player_can_shoot:
                 mouse_pos = [pygame.mouse.get_pos()]
                 
                 if self.game.shot_selection == "nuke":  #adds mouse positions for all nuke tiles
@@ -123,14 +99,13 @@ class PlayingScreen(Screen):
                         hit = self.game.player_1_board.hit_pos(position)
 
                     if hit:
+                        # Disable shooting after the first valid shot
+                        self.game.player_can_shoot = False
                         # Set a timer for turn transition
                         pygame.time.set_timer(TURN_TRANSITION_EVENT, self.TURN_TRANSITION_DELAY, loops=1)
-                    else:
-                        self.error_message = "Not Valid"
-                        self.error_timer = pygame.time.get_ticks()
-                        Audio.play_error()
 
             elif event.type == TURN_TRANSITION_EVENT:
+                self.game.player_can_shoot = True
                 # This event will be triggered after the delay
                 self.game.set_state(State.TURN_TRANSITION)
 
@@ -141,36 +116,30 @@ class PlayingScreen(Screen):
                 elif self.game.current_player == Player.TWO:
                     powerups = self.game.player_1_board.get_powerups()
 
-                # handle powerups for current player
+                #handle powerups for current player
                 if event.key == pygame.K_1:
                     if powerups[0] == True:
                         self.game.rotate_shot_selection(1)
                         self.game.set_powerup_activity()
                         powerups[0] = False
                     else:
-                        self.error_message = "Not Available"
-                        self.error_timer = pygame.time.get_ticks()
-                        Audio.play_error()
+                        print("You do not have this powerup")
                 if event.key == pygame.K_2:
                     if powerups[1] == True:
                         self.game.rotate_shot_selection(2)
                         self.game.set_powerup_activity()
                         powerups[1] = False
                     else:
-                        self.error_message = "Not Available"
-                        self.error_timer = pygame.time.get_ticks()
-                        Audio.play_error()
+                        print("You do not have this powerup")
                 if event.key == pygame.K_3:
                     if powerups[2] == True:
                         self.game.rotate_shot_selection(3)
                         self.game.set_powerup_activity()
                         powerups[2] = False
                     else:
-                        self.error_message = "Not Available"
-                        self.error_timer = pygame.time.get_ticks()
-                        Audio.play_error()
+                        print("You do not have this powerup")
                         
-                # set the powerup list for current player so a selected powerup is consumed
+                #set the powerup list for current player so a selected powerup is consumed
                 if self.game.current_player == Player.ONE:
                     self.game.player_2_board.set_powerups(powerups)
                 if self.game.current_player == Player.TWO:
