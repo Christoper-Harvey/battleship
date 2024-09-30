@@ -199,7 +199,7 @@ class PlayingScreen(Screen):
                         else:
                             self.message = "Not Valid"
                             self.message_timer = pygame.time.get_ticks()
-                            Audio.play_error()
+                            # Audio.play_error()
 
             elif event.type == TURN_TRANSITION_EVENT:
                 self.game.player_can_shoot = True
@@ -219,51 +219,51 @@ class PlayingScreen(Screen):
                         self.game.rotate_shot_selection(1)
                         self.game.set_powerup_activity()
                         powerups[0] = False
-                        Audio.play_use()
+                        # Audio.play_use()
                     else:
                         self.message = "Not Available"
                         self.message_timer = pygame.time.get_ticks()
-                        Audio.play_error()
+                        # Audio.play_error()
                 if event.key == pygame.K_2:
                     if powerups[1] == True:
                         self.game.rotate_shot_selection(2)
                         self.game.set_powerup_activity()
                         powerups[1] = False
-                        Audio.play_use()
+                        # Audio.play_use()
                     else:
                         self.message = "Not Available"
                         self.message_timer = pygame.time.get_ticks()
-                        Audio.play_error()
+                        # Audio.play_error()
                 if event.key == pygame.K_3:
                     if powerups[2] == True:
                         self.game.rotate_shot_selection(3)
                         self.game.set_powerup_activity()
                         powerups[2] = False
-                        Audio.play_use()
+                        # Audio.play_use()
                     else:
                         self.message = "Not Available"
                         self.message_timer = pygame.time.get_ticks()
-                        Audio.play_error()
+                        # Audio.play_error()
                 if event.key == pygame.K_4:
                     if powerups[3] == True:
                         self.game.rotate_shot_selection(4)
                         self.game.set_powerup_activity()
                         powerups[3] = False
-                        Audio.play_use()
+                        # Audio.play_use()
                     else:
                         self.message = "Not Available"
                         self.message_timer = pygame.time.get_ticks()
-                        Audio.play_error()
+                        # Audio.play_error()
                 if event.key == pygame.K_5:
                     if powerups[4] == True:
                         self.game.rotate_shot_selection(5)
                         self.game.set_powerup_activity()
                         powerups[4] = False
-                        Audio.play_use()
+                        # Audio.play_use()
                     else:
                         self.message = "Not Available"
                         self.message_timer = pygame.time.get_ticks()
-                        Audio.play_error()
+                        # Audio.play_error()
                         
                 #set the powerup list for current player so a selected powerup is consumed
                 if self.game.current_player == Player.ONE:

@@ -69,35 +69,35 @@ class Board:
                 print("Got nuke")
                 if self.powerups[0] == False:
                     self.powerups[0] = True
-                    Audio.play_pickup()
+                    # Audio.play_pickup()
                 else:
                     print("Duplicate powerup wasted")
             elif powerup_chance < 0.2:  # 40% chance for powerup 2
                 print("Got Bombing Run (horizontal)")
                 if self.powerups[1] == False:
                     self.powerups[1] = True
-                    Audio.play_pickup()
+                    # Audio.play_pickup()
                 else:
                     print("Duplicate powerup wasted")
             elif powerup_chance < 0.2:  # 40% chance for powerup 3
                 print("Got Bombing Run (vertical)")
                 if self.powerups[2] == False:
                     self.powerups[2] = True
-                    Audio.play_pickup()
+                    # Audio.play_pickup()
                 else:
                     print("Duplicate powerup wasted")
             elif powerup_chance < 0.2:  # 40% chance for powerup 5
                 print("Got Radar")
                 if self.powerups[4] == False:
                     self.powerups[4] = True
-                    Audio.play_pickup()
+                    # Audio.play_pickup()
                 else:
                     print("Duplicate powerup wasted")
             else:  # 40% chance for powerup 4
                 print("Got Volley")
                 if self.powerups[3] == False:
                     self.powerups[3] = True
-                    Audio.play_pickup()
+                    # Audio.play_pickup()
                 else:
                     print("Duplicate powerup wasted")
 
